@@ -1,10 +1,18 @@
+import { utcToZonedTime, format } from 'date-fns-tz';
 import MeetingTypeList from '@/components/MeetingTypeList';
 
 const Home = () => {
-  const now = new Date();
+  const timeZone = 'Asia/Kolkata';
 
-  const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-  const date = (new Intl.DateTimeFormat('en-US', { dateStyle: 'full' })).format(now);
+  // Always use current UTC time
+  const utcDate = new Date();
+
+  // Convert UTC to IST explicitly
+  const istDate = utcToZonedTime(utcDate, timeZone);
+
+  // Format the time and date in IST
+  const time = format(istDate, 'hh:mm a', { timeZone });
+  const date = format(istDate, 'EEEE, dd MMMM yyyy', { timeZone });
 
   return (
     <section className="flex size-full flex-col gap-5 text-white">
